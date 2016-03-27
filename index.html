@@ -8,6 +8,7 @@
 		<script src="https://fb.me/react-0.14.7.js"></script>
 		<script src="https://fb.me/react-dom-0.14.7.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+		<script src="https://code.jquery.com/jquery-2.2.2.min.js"></script>
 	</head>
 	<body>
 		<div id="app">
@@ -19,7 +20,7 @@
 				var Chat = React.createClass({
 					getInitialState: function() {
 						return {
-							name: "will",
+							name: "wshowell",
 							messages: [
 								{
 									name: 'codeupstart',
@@ -35,11 +36,33 @@
 						};
 					},
 					
+					componentDidUpdate: function() {
+						$("#message-list").scrollTop($("#message-list")[0].scrollHeight);
+					},
+					
 					setName: function() {
 						var myName = window.prompt("Please enter a name", "anonymous");
 						this.setState({
 							name: myName
 						});
+					},
+					
+					sendMessage: function(event) {
+						var text = event.target.value;
+						if (event.keyCode ==13 && text != '') {
+							var message = {
+								name: this.state.name,
+								text: text,
+								time: new Date()
+							}
+							
+							this.setState({
+								messages: this.state.messages.concat(message)
+							});
+							
+							$('#msg-input').val('');
+							
+						}
 					},
 				
 					render: function() {
@@ -100,7 +123,7 @@
 										<p className="disclaimer">This demo is not created by, affiliated with, or supported by Slack Technologies, Inc.</p>
 									</div>
 									<div className="input-box">
-										<input type="text" className="input-box_text" />
+										<input id="msg-input" type="text" className="input-box_text" onKeyDown={this.sendMessage} />
 									</div>
 								</div>							
 							</div>
