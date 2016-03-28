@@ -33,6 +33,7 @@ var Chat = React.createClass({
           text: 'Welcome to your chat app'  
         }
       ],
+      currentChannel: "general"
     };
   },
   
@@ -63,7 +64,14 @@ var Chat = React.createClass({
         this.setState({
             channels: this.state.channels.concat(channelName)
         });
+        this.joinChannel(channelName);
     }
+  },
+  
+  joinChannel: function(channelName) {
+    this.setState({
+        currentChannel: channelName
+    });
   },
 
   enterName: function() {
@@ -105,13 +113,18 @@ var Chat = React.createClass({
           <div className="channel-menu">
             <span className="channel-menu_name">
               <span className="channel-menu_prefix">#</span> 
-              general
+              {this.state.currentChannel}
             </span>
           </div>
         </div>
         <div className="main">
           <div className="listings">
-            <Channels channels={this.state.channels} createChannel={this.createChannel}/>
+            <Channels 
+                channels={this.state.channels} 
+                createChannel={this.createChannel}
+                currentChannel={this.state.currentChannel}
+                joinChannel={this.joinChannel}
+            />
             <div className="listings_direct-messages"></div>
           </div>
           <div className="message-history">
