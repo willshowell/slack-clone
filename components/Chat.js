@@ -57,6 +57,14 @@ var Chat = React.createClass({
       
     }
   },
+  
+  createChannel: function(channelName) {
+    if (!(channelName in this.state.channels)) {
+        this.setState({
+            channels: this.state.channels.concat(channelName)
+        });
+    }
+  },
 
   enterName: function() {
     var newName = $('#new-name').val().trim();
@@ -103,7 +111,7 @@ var Chat = React.createClass({
         </div>
         <div className="main">
           <div className="listings">
-            <Channels channels={this.state.channels} />
+            <Channels channels={this.state.channels} createChannel={this.createChannel}/>
             <div className="listings_direct-messages"></div>
           </div>
           <div className="message-history">
