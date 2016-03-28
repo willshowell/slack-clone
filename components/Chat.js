@@ -33,14 +33,14 @@ var Chat = React.createClass({
     var messages = {};
     messages[DEFAULT_CHANNEL] = [
         {
-          name: 'codeupstart',
+          name: 'wshowell',
           time: new Date(),
-          text: 'Hi there! 😘'             
+          text: 'Yo! 🚀'             
         },
         {
-          name: 'codeupstart',
+          name: 'wshowell',
           time: new Date(),
-          text: 'Welcome to your chat app'  
+          text: 'Welcome to the chat app'  
         }
     ];
     this.setState({
