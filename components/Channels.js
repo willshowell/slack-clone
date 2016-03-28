@@ -36,7 +36,6 @@ var Channels = React.createClass({
     joinNewChannel: function() {
     	
     	var new_channel = $('#new-channel-name').val();
-    	console.log("making new channel: " + new_channel);
     	if (new_channel.trim() != "") {
     		this.props.createChannel(new_channel);
     		this.closeModal();	

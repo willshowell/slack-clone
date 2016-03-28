@@ -15,13 +15,23 @@ const customStyles = {
     }
 };
 
+const DEFAULT_CHANNEL = "general";
+
 
 var Chat = React.createClass({
   getInitialState: function() {
     return {
       name: null,
-      channels: ['general'],
-      messages: [
+      channels: [],
+      messages: {},
+      currentChannel: null
+    };
+  },
+  
+  componentDidMount: function() {
+    this.createChannel(DEFAULT_CHANNEL);
+    var messages = {};
+    messages[DEFAULT_CHANNEL] = [
         {
           name: 'codeupstart',
           time: new Date(),
@@ -32,9 +42,11 @@ var Chat = React.createClass({
           time: new Date(),
           text: 'Welcome to your chat app'  
         }
-      ],
-      currentChannel: "general"
-    };
+    ];
+    this.setState({
+        messages: messages
+    });
+      
   },
   
   componentDidUpdate: function() {
@@ -50,8 +62,10 @@ var Chat = React.createClass({
         time: new Date()
       }
       
+      var messages= this.state.messages;
+      messages[this.state.currentChannel].push(message);
       this.setState({
-        messages: this.state.messages.concat(message)
+        messages: messages
       });
       
       $('#msg-input').val('');
@@ -61,8 +75,11 @@ var Chat = React.createClass({
   
   createChannel: function(channelName) {
     if (!(channelName in this.state.channels)) {
+        var messages = this.state.messages;
+        messages[channelName] = [];        
         this.setState({
-            channels: this.state.channels.concat(channelName)
+            channels: this.state.channels.concat(channelName),
+            messages: messages
         });
         this.joinChannel(channelName);
     }
@@ -95,7 +112,6 @@ var Chat = React.createClass({
   },
 
   render: function() {
-  
     return (
       <div>
         <Modal
@@ -128,7 +144,7 @@ var Chat = React.createClass({
             <div className="listings_direct-messages"></div>
           </div>
           <div className="message-history">
-            <Messages messages={this.state.messages} />
+            <Messages messages={this.state.messages[this.state.currentChannel]} />
           </div>
         </div>
         <div className="footer">

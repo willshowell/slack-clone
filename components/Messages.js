@@ -4,8 +4,12 @@ var ReactDOM = require('react-dom');
 var Messages = React.createClass({
     
     render: function() {
+        if (!this.props.messages) {
+            return null;
+        }
         var messageList = this.props.messages.map(function(message, i) {
             var text = message.text;
+            
             return (
                 <div key={i} className="message">
                     <a href={"https://twitter.com/" + message.name + "/"} target="_blank">
